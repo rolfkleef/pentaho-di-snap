@@ -20,5 +20,7 @@ parts:
     source-type: git
     source-branch: 8.0.0.0
     maven-options: [-DskipTests]
+    stage-packages: ["unzip"]
     install: |
         unzip $SNAPCRAFT_PART_INSTALL/zip/pdi-ce-8.0-SNAPSHOT.zip -d $SNAPCRAFT_PART_INSTALL/
+        rm -rf $SNAPCRAFT_PART_INSTALL/zip/pdi-ce-8.0-SNAPSHOT.zip
