@@ -10,8 +10,8 @@ confinement: devmode
 
 apps:
   spoon:
-    command: data-integration/spoon.sh
-    plugs: [network, network-bind]
+    command: desktop-launch $SNAP/data-integration/spoon.sh
+    plugs: [network, network-bind,x11,home]
 
 parts:
   data-integration:
@@ -21,6 +21,8 @@ parts:
     source-branch: 8.0.0.0
     maven-options: [-DskipTests]
     stage-packages: ["unzip"]
+    build-packages: ["libwebkitgtk-1.0-0"]
     install: |
         unzip $SNAPCRAFT_PART_INSTALL/zip/pdi-ce-8.0-SNAPSHOT.zip -d $SNAPCRAFT_PART_INSTALL/
         rm -rf $SNAPCRAFT_PART_INSTALL/zip/pdi-ce-8.0-SNAPSHOT.zip
+    after: [desktop-gtk3]
