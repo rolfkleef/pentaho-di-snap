@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Spoon
+# NotShowIn=KDE;GNOME;
+Comment=Spoon
+Exec=pentaho-data-integration-spicule.spoon
