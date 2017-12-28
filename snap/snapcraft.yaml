@@ -1,17 +1,34 @@
 name: pentaho-data-integration-spicule
 version: '8.0'
-summary: Data Integration Server
+summary: Pentaho Data Integration Server
 description: |
     Data Integration Server which allows users to ingest data into a variety
-    of platforms via a GUI for CLI.
+    of platforms via a GUI for CLI
 
-grade: devel
-confinement: devmode
+grade: stable
+confinement: strict
 
 apps:
   spoon:
     command: desktop-launch $SNAP/data-integration/spoon.sh
     plugs: [network, network-bind,x11,home]
+
+  kitchen:
+    command: data-integration/kitchen.sh
+    plugs: [network, network-bind]
+
+  pan:
+    command: data-integration/pan.sh
+    plugs: [network,network-bind]
+
+  carte:
+    command: data-integration/carte.sh $SNAP_DATA/carte-config.xml
+    plugs: [network,network-bind]
+    daemon: simple
+
+  encrypt:
+    command: data-integration/encr.sh
+    plugs: [network,network-bind]
 
 parts:
   data-integration:
@@ -26,3 +43,11 @@ parts:
         unzip $SNAPCRAFT_PART_INSTALL/zip/pdi-ce-8.0-SNAPSHOT.zip -d $SNAPCRAFT_PART_INSTALL/
         rm -rf $SNAPCRAFT_PART_INSTALL/zip/pdi-ce-8.0-SNAPSHOT.zip
     after: [desktop-gtk3]
+    stage:
+        - -data-integration/spoon.sh
+        - -data-integration/launcher/launcher.properties
+  data-customizations:
+        plugin: copy
+        files:
+            src/pdi/spoon.sh: data-integration/
+            src/pdi/launcher.properties: data-integration/launcher/
